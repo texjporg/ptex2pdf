@@ -116,7 +116,7 @@ for platex files in SJIS encoding:
 
 ## Development place ##
 
-http://github.com/norbusan/ptex2pdf
+http://github.com/texjporg/ptex2pdf
 
 ## Changelog ##
 

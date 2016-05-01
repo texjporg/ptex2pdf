@@ -129,7 +129,7 @@ for platex files in SJIS encoding:
 |             | $fullname                   |
 ]]
 
-DEVELPLACE = "http://github.com/norbusan/ptex2pdf"
+DEVELPLACE = "http://github.com/texjporg/ptex2pdf"
 
 
 CHANGELOG = [[
