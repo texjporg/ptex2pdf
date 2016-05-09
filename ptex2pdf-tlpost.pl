@@ -12,6 +12,10 @@
 # This file is licensed under the GNU General Public License version 2
 # or any later version.
 #
+# TODO
+# - by now we do *NOT* check the environment!!!
+# - what to do on remove?
+#
 
 my $texdir;
 my $mode;
