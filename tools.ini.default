@@ -1,0 +1,66 @@
+[001]
+name=pdfTeX
+program=pdftex.exe
+arguments=$synctexoption, $fullname
+showPdf=true
+
+[002]
+name=pdfLaTeX
+program=pdflatex.exe
+arguments=$synctexoption, $fullname
+showPdf=true
+
+[003]
+name=LuaTeX
+program=luatex.exe
+arguments=$synctexoption, $fullname
+showPdf=true
+
+[004]
+name=LuaLaTeX
+program=lualatex.exe
+arguments=$synctexoption, $fullname
+showPdf=true
+
+[005]
+name=XeTeX
+program=xetex.exe
+arguments=$synctexoption, $fullname
+showPdf=true
+
+[006]
+name=XeLaTeX
+program=xelatex.exe
+arguments=$synctexoption, $fullname
+showPdf=true
+
+[007]
+name=ConTeXt (LuaTeX)
+program=context.exe
+arguments=--synctex, $fullname
+showPdf=true
+
+[008]
+name=ConTeXt (pdfTeX)
+program=texexec.exe
+arguments=--synctex, $fullname
+showPdf=true
+
+[009]
+name=ConTeXt (XeTeX)
+program=texexec.exe
+arguments=--synctex, --xtx, $fullname
+showPdf=true
+
+[010]
+name=BibTeX
+program=bibtex.exe
+arguments=$basename
+showPdf=false
+
+[011]
+name=MakeIndex
+program=makeindex.exe
+arguments=$basename
+showPdf=false
+

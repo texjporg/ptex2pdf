@@ -1,0 +1,30 @@
+[nnn]
+name=pTeX to pdf
+progname=ptex2pdf
+arguments=-ot, $synctexoption, $fullname
+showPdf=true
+
+[nnn]
+name=pLaTeX to pdf
+progname=ptex2pdf
+arguments=-l, -ot, $synctexoption, $fullname
+showPdf=true
+
+[nnn]
+name=pLaTeX/SJIS to pdf
+progname=ptex2pdf
+arguments=-l, -ot, $synctexoption, -kanji=sjis, $fullname
+showPdf=true
+
+[nnn]
+name=upTeX to pdf
+progname=ptex2pdf
+arguments=-u, -ot, $synctexoption, $fullname
+showPdf=true
+
+[nnn]
+name=upLaTeX to pdf
+progname=ptex2pdf
+arguments=-l, -u, -ot, $synctexoption, $fullname
+showPdf=true
+
