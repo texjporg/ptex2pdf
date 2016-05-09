@@ -23,7 +23,115 @@ BEGIN {
   # make Perl find our packages first:
   unshift (@INC, "$texdir/tlpkg");
 }
-use TeXLive::TLUtils qw(win32 mkdirhier conv_to_w32_path log info);
+
+use TeXLive::TLUtils qw(win32 mkdirhier conv_to_w32_path log info tlwarn);
+#use Data::Dumper;
+
+
+my %ptex2pdf = (
+  '1' => {
+    'name' => 'pTeX to pdf',
+    'program' => 'ptex2pdf',
+    'arguments' => '-ot, $synctexoption, $fullname',
+    'showPdf' => 'true'
+  },
+  '2' => {
+    'name' => 'pLaTeX to pdf',
+    'program' => 'ptex2pdf',
+    'arguments' => '-l, -ot, $synctexoption, $fullname',
+    'showPdf' => 'true'
+  },
+  '3' => {
+    'name' => 'pLaTeX/SJIS to pdf',
+    'program' => 'ptex2pdf',
+    'arguments' => '-l, -ot, $synctexoption, -kanji=sjis, $fullname',
+    'showPdf' => 'true'
+  },
+  '4' => {
+    'name' => 'upTeX to pdf',
+    'program' => 'ptex2pdf',
+    'arguments' => '-u, -ot, $synctexoption, $fullname',
+    'showPdf' => 'true'
+  },
+  '5' => {
+    'name' => 'upLaTeX to pdf',
+    'program' => 'ptex2pdf',
+    'arguments' => '-u, -l, -ot, $synctexoption, $fullname',
+    'showPdf' => 'true'
+  },
+);
+
+#
+# NEEDS TO BE KEPT IN SYNC WITH TEX WORKS compiled in default!
+my %original = (
+  '001' => {
+    'name' => 'pdfTeX',
+    'showPdf' => 'true',
+    'program' => 'pdftex',
+    'arguments' => '$synctexoption, $fullname'
+  },
+  '002' => {
+    'name' => 'pdfLaTeX',
+    'showPdf' => 'true',
+    'program' => 'pdflatex',
+    'arguments' => '$synctexoption, $fullname'
+  },
+  '003' => {
+    'name' => 'LuaTeX',
+    'showPdf' => 'true',
+    'arguments' => '$synctexoption, $fullname',
+    'program' => 'luatex'
+  },
+  '004' => {
+    'showPdf' => 'true',
+    'name' => 'LuaLaTeX',
+    'program' => 'lualatex',
+    'arguments' => '$synctexoption, $fullname'
+  },
+  '005' => {
+    'program' => 'xetex',
+    'arguments' => '$synctexoption, $fullname',
+    'name' => 'XeTeX',
+    'showPdf' => 'true'
+  },
+  '006' => {
+    'arguments' => '$synctexoption, $fullname',
+    'program' => 'xelatex',
+    'name' => 'XeLaTeX',
+    'showPdf' => 'true'
+  },
+  '007' => {
+    'program' => 'context',
+    'arguments' => '--synctex, $fullname',
+    'name' => 'ConTeXt (LuaTeX)',
+    'showPdf' => 'true'
+  },
+  '008' => {
+    'showPdf' => 'true',
+    'name' => 'ConTeXt (pdfTeX)',
+    'arguments' => '--synctex, $fullname',
+    'program' => 'texexec'
+  },
+  '009' => {
+    'program' => 'texexec',
+    'arguments' => '--synctex, --xtx, $fullname',
+    'showPdf' => 'true',
+    'name' => 'ConTeXt (XeTeX)'
+  },
+  '010' => {
+    'arguments' => '$basename',
+    'program' => 'bibtex',
+    'name' => 'BibTeX',
+    'showPdf' => 'false'
+  },
+  '011' => {
+    'name' => 'MakeIndex',
+    'showPdf' => 'false',
+    'arguments' => '$basename',
+    'program' => 'makeindex'
+  },
+);
+
 
 if ($mode eq 'install') {
   do_install();
@@ -34,7 +142,7 @@ if ($mode eq 'install') {
 }
 
 sub do_remove {
-  # do nothing
+  # TODO - what should we do here???
 }
 
 sub do_install {
@@ -42,22 +150,87 @@ sub do_install {
   # on Windows: we assume that the TL internal TeXWorks is used and
   #   search in TW_INIPATH
   # all other: we assume a system-wide TeXworks and use ~/.TeXworks
-  my $tools;
+  my $toolsdir;
   if (win32()) {
     chomp( my $twini = `kpsewhich -var-value=TW_INIPATH` ) ;
-    $tools = "$twini/configuration/tools.ini";
+    $toolsdir = "$twini/configuration";
   } else {
-    $tools = $env{'HOME'} . "/.TeXworks/configuration/tools.ini";
+    $toolsdir = $ENV{'HOME'} . "/.TeXworks/configuration";
   }
+  my $tools = "$toolsdir/tools.ini";
+  my $highest_entry = 0;
   if (-r $tools) {
     # assume that succeeds, we tested -r above!
     open (FOO, "<", $tools);
     my @lines = <FOO>;
     chomp(@lines);
     close(FOO);
-
+    # policy: if ptex2pdf appears in any of the program entries, we
+    # do nothing. Only otherwise we add new entries.
+    my %entries;
+    my $in_entry = 0;
+    foreach my $l (@lines) {
+      if ($l =~ m/^\[(.*)\]\s*$/) {
+        $in_entry = $1;
+        $highest_entry = ( (0+$in_entry) > $highest_entry ? (0+$in_entry) : $highest_entry);
+        next;
+      }
+      if ($l =~ m/^\s*$/) {
+        # empty line terminates entry
+        $in_entry = 0;
+        next;
+      }
+      if ($l =~ m/^([^=]*)=(.*)$/) {
+        if ($in_entry) {
+          $entries{$in_entry}{$1} = $2;
+        } else {
+          tlwarn("line outside of entry in $tools: $l\n");
+        }
+        next;
+      }
+      # we are still here
+      tlwarn("unrecognized line in $tools: $l\n");
+    }
+    # $Data::Dumper::Indent = 1;
+    # print Data::Dumper->Dump([\%entries], ["entries"]);
+    # now check that we don't see ptex2pdf
+    for my $id (keys %entries) {
+      if ($entries{$id}{'program'} && $entries{$id}{'program'} =~ m/^ptex2pdf/s) {
+        tlwarn("ptex2pdf programs already included in tools.ini, not adding again.\n");
+        return 0;
+      }
+    }
   } else {
+    # no tools, we need to create the path and the file
+    mkdirhier($toolsdir);
+    for my $t (sort keys %original) {
+      my $id = sprintf("%03d", ++$highest_entry);
+      $entries{$id} = $original{$t};
+      if (win32()) {
+        $entries{$id}{'program'} .= ".exe";
+      }
+    }
   }
+  for my $t (sort keys %ptex2pdf) {
+    my $id = sprintf("%03d", ++$highest_entry);
+    $entries{$id} = $ptex2pdf{$t};
+    if (win32()) {
+      $entries{$id}{'program'} .= ".exe";
+    }
+  }
+  my $fh;
+  if (!open ($fh, ">", $tools)) {
+    tlwarn("ptex2pdf postinstall: cannot update $tools!\n");
+    return 1;
+  }
+  for my $k (sort keys %entries) {
+    print $fh "[", $k, "]\n";
+    for my $key (qw/name program arguments showPdf/) {
+      print $fh $key, '=', $entries{$k}{$key}, "\n";
+    }
+    print $fh "\n";
+  }
+  close($fh) or tlwarn("ptex2pdf postinstall: cannot close $tools\n");
   return 0;
 }
 
