@@ -36,13 +36,13 @@ my %ptex2pdf = (
   '1' => {
     'name' => 'pTeX to pdf',
     'program' => 'ptex2pdf',
-    'arguments' => '-ot, $synctexoption, $fullname',
+    'arguments' => '-ot, -kanji=utf8 $synctexoption, $fullname',
     'showPdf' => 'true'
   },
   '2' => {
     'name' => 'pLaTeX to pdf',
     'program' => 'ptex2pdf',
-    'arguments' => '-l, -ot, $synctexoption, $fullname',
+    'arguments' => '-l, -ot, -kanji=utf8 $synctexoption, $fullname',
     'showPdf' => 'true'
   },
   '3' => {
