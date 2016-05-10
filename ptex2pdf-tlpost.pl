@@ -63,6 +63,18 @@ my %ptex2pdf = (
     'arguments' => '-u, -l, -ot, $synctexoption, $fullname',
     'showPdf' => 'true'
   },
+  '6' => {
+    'name' => 'pBibTeX (Japanese BibTeX)',
+    'program' => 'pbibtex',
+    'arguments' => '$basename',
+    'showPdf' => 'false'
+  },
+  '7' => {
+    'name' => 'mendex (Japanese MakeIndex)',
+    'program' => 'mendex',
+    'arguments' => '$basename',
+    'showPdf' => 'false'
+  },
 );
 
 #
