@@ -48,7 +48,7 @@ my %ptex2pdf = (
   '3' => {
     'name' => 'pLaTeX/SJIS to pdf',
     'program' => 'ptex2pdf',
-    'arguments' => '-l, -ot, $synctexoption, -kanji=sjis, $fullname',
+    'arguments' => '-l, -ot, $synctexoption -kanji=sjis, $fullname',
     'showPdf' => 'true'
   },
   '4' => {
