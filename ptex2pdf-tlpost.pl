@@ -46,30 +46,24 @@ my %ptex2pdf = (
     'showPdf' => 'true'
   },
   '3' => {
-    'name' => 'pLaTeX/SJIS to pdf',
-    'program' => 'ptex2pdf',
-    'arguments' => '-l, -ot, $synctexoption -kanji=sjis, $fullname',
-    'showPdf' => 'true'
-  },
-  '4' => {
     'name' => 'upTeX to pdf',
     'program' => 'ptex2pdf',
     'arguments' => '-u, -ot, $synctexoption, $fullname',
     'showPdf' => 'true'
   },
-  '5' => {
+  '4' => {
     'name' => 'upLaTeX to pdf',
     'program' => 'ptex2pdf',
     'arguments' => '-u, -l, -ot, $synctexoption, $fullname',
     'showPdf' => 'true'
   },
-  '6' => {
+  '5' => {
     'name' => 'pBibTeX (Japanese BibTeX)',
     'program' => 'pbibtex',
     'arguments' => '$basename',
     'showPdf' => 'false'
   },
-  '7' => {
+  '6' => {
     'name' => 'mendex (Japanese MakeIndex)',
     'program' => 'mendex',
     'arguments' => '$basename',
