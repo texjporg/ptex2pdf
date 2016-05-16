@@ -13,7 +13,6 @@
 # or any later version.
 #
 # TODO
-# - by now we do *NOT* check the environment!!!
 # - what to do on remove?
 #
 
@@ -29,6 +28,9 @@ BEGIN {
 }
 
 use TeXLive::TLUtils qw(win32 mkdirhier conv_to_w32_path log info tlwarn);
+
+$::lang = "C";
+require("TeXLive/trans.pl");
 #use Data::Dumper;
 
 
@@ -142,6 +144,10 @@ my %original = (
   },
 );
 
+if ($::lang ne 'ja') {
+  # not adjusting TeXworks for ptex2pdf
+  exit(0);
+}
 
 if ($mode eq 'install') {
   do_install();
@@ -206,7 +212,7 @@ sub do_install {
     # now check that we don't see ptex2pdf
     for my $id (keys %entries) {
       if ($entries{$id}{'program'} && $entries{$id}{'program'} =~ m/^ptex2pdf/s) {
-        tlwarn("ptex2pdf programs already included in tools.ini, not adding again.\n");
+        info("ptex2pdf programs already included in tools.ini, not adding again.\n");
         return 0;
       }
     }
@@ -233,6 +239,7 @@ sub do_install {
     tlwarn("ptex2pdf postinstall: cannot update $tools!\n");
     return 1;
   }
+  info("ptex2pdf postinst: adjusting TeXworks tools.ini for ptex2pdf\n");
   for my $k (sort keys %entries) {
     print $fh "[", $k, "]\n";
     for my $key (qw/name program arguments showPdf/) {
