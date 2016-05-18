@@ -58,7 +58,7 @@ my %ptex2pdf = (
   '5' => {
     'name' => 'pBibTeX (Japanese BibTeX)',
     'program' => 'pbibtex',
-    'arguments' => '$basename',
+    'arguments' => '-kanji=utf8, $basename',
     'showPdf' => 'false'
   },
   '6' => {
@@ -70,7 +70,7 @@ my %ptex2pdf = (
   '7' => {
     'name' => 'mendex (Japanese MakeIndex)',
     'program' => 'mendex',
-    'arguments' => '$basename',
+    'arguments' => '-U, $basename',
     'showPdf' => 'false'
   },
   '8' => {
