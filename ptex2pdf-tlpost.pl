@@ -29,10 +29,6 @@ BEGIN {
 
 use TeXLive::TLUtils qw(win32 mkdirhier conv_to_w32_path log info tlwarn);
 
-$::lang = "C";
-require("TeXLive/trans.pl");
-#use Data::Dumper;
-
 
 my %ptex2pdf = (
   '1' => {
@@ -160,6 +156,11 @@ if ($::lang ne 'ja') {
   # not adjusting TeXworks for ptex2pdf
   exit(0);
 }
+
+$::lang = "C";
+require TeXLive::TLWinGoo;
+require("TeXLive/trans.pl");
+#use Data::Dumper;
 
 if ($mode eq 'install') {
   do_install();
