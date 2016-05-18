@@ -36,25 +36,25 @@ require("TeXLive/trans.pl");
 
 my %ptex2pdf = (
   '1' => {
-    'name' => 'pTeX to pdf',
+    'name' => 'pTeX (ptex2pdf)',
     'program' => 'ptex2pdf',
     'arguments' => '-ot, -kanji=utf8 $synctexoption, $fullname',
     'showPdf' => 'true'
   },
   '2' => {
-    'name' => 'pLaTeX to pdf',
+    'name' => 'pLaTeX (ptex2pdf)',
     'program' => 'ptex2pdf',
     'arguments' => '-l, -ot, -kanji=utf8 $synctexoption, $fullname',
     'showPdf' => 'true'
   },
   '3' => {
-    'name' => 'upTeX to pdf',
+    'name' => 'upTeX (ptex2pdf)',
     'program' => 'ptex2pdf',
     'arguments' => '-u, -ot, $synctexoption, $fullname',
     'showPdf' => 'true'
   },
   '4' => {
-    'name' => 'upLaTeX to pdf',
+    'name' => 'upLaTeX (ptex2pdf)',
     'program' => 'ptex2pdf',
     'arguments' => '-u, -l, -ot, $synctexoption, $fullname',
     'showPdf' => 'true'
@@ -66,8 +66,20 @@ my %ptex2pdf = (
     'showPdf' => 'false'
   },
   '6' => {
+    'name' => 'upBibTeX (Unicode pBibTeX)',
+    'program' => 'upbibtex',
+    'arguments' => '$basename',
+    'showPdf' => 'false'
+  },
+  '7' => {
     'name' => 'mendex (Japanese MakeIndex)',
     'program' => 'mendex',
+    'arguments' => '$basename',
+    'showPdf' => 'false'
+  },
+  '8' => {
+    'name' => 'upmendex (Unicode mendex)',
+    'program' => 'upmendex',
     'arguments' => '$basename',
     'showPdf' => 'false'
   },
