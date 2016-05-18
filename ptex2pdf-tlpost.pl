@@ -152,15 +152,15 @@ my %original = (
   },
 );
 
-if ($::lang ne 'ja') {
-  # not adjusting TeXworks for ptex2pdf
-  exit(0);
-}
-
 $::lang = "C";
 require TeXLive::TLWinGoo;
 require("TeXLive/trans.pl");
 #use Data::Dumper;
+
+if ($::lang ne 'ja') {
+  # not adjusting TeXworks for ptex2pdf
+  exit(0);
+}
 
 if ($mode eq 'install') {
   do_install();
@@ -186,6 +186,7 @@ sub do_install {
   } else {
     $toolsdir = $ENV{'HOME'} . "/.TeXworks/configuration";
   }
+  # print "toolsdir = $toolsdir\n";
   my $tools = "$toolsdir/tools.ini";
   my $highest_entry = 0;
   if (-r $tools) {
