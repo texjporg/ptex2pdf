@@ -44,37 +44,37 @@ my %ptex2pdf = (
     'showPdf' => 'true'
   },
   '3' => {
+    'name' => 'pBibTeX',
+    'program' => 'pbibtex',
+    'arguments' => '-kanji=utf8, $basename',
+    'showPdf' => 'false'
+  },
+  '4' => {
+    'name' => 'mendex',
+    'program' => 'mendex',
+    'arguments' => '-U, $basename',
+    'showPdf' => 'false'
+  },
+  '5' => {
     'name' => 'upTeX (ptex2pdf)',
     'program' => 'ptex2pdf',
     'arguments' => '-u, -ot, $synctexoption, $fullname',
     'showPdf' => 'true'
   },
-  '4' => {
+  '6' => {
     'name' => 'upLaTeX (ptex2pdf)',
     'program' => 'ptex2pdf',
     'arguments' => '-u, -l, -ot, $synctexoption, $fullname',
     'showPdf' => 'true'
   },
-  '5' => {
-    'name' => 'pBibTeX (Japanese BibTeX)',
-    'program' => 'pbibtex',
-    'arguments' => '-kanji=utf8, $basename',
-    'showPdf' => 'false'
-  },
-  '6' => {
-    'name' => 'upBibTeX (Unicode pBibTeX)',
+  '7' => {
+    'name' => 'upBibTeX',
     'program' => 'upbibtex',
     'arguments' => '$basename',
     'showPdf' => 'false'
   },
-  '7' => {
-    'name' => 'mendex (Japanese MakeIndex)',
-    'program' => 'mendex',
-    'arguments' => '-U, $basename',
-    'showPdf' => 'false'
-  },
   '8' => {
-    'name' => 'upmendex (Unicode mendex)',
+    'name' => 'upmendex',
     'program' => 'upmendex',
     'arguments' => '$basename',
     'showPdf' => 'false'
