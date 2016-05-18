@@ -200,12 +200,12 @@ sub do_install {
         if ($in_entry) {
           $entries{$in_entry}{$1} = $2;
         } else {
-          tlwarn("line outside of entry in $tools: $l\n");
+          tlwarn("\nptex2pdf postaction: line outside of entry in $tools: $l\n");
         }
         next;
       }
       # we are still here
-      tlwarn("unrecognized line in $tools: $l\n");
+      tlwarn("\nptex2pdf postaction: unrecognized line in $tools: $l\n");
     }
     # $Data::Dumper::Indent = 1;
     # print Data::Dumper->Dump([\%entries], ["entries"]);
@@ -236,10 +236,11 @@ sub do_install {
   }
   my $fh;
   if (!open ($fh, ">", $tools)) {
-    tlwarn("ptex2pdf postinstall: cannot update $tools!\n");
+    tlwarn("\nptex2pdf postaction: cannot update $tools!\n");
     return 1;
   }
-  info("ptex2pdf postinst: adjusting TeXworks tools.ini for ptex2pdf\n");
+  # we are in install mode in a line that will be finished with ...done 
+  info("(ptex2pdf postinst: adjusting TeXworks tools.ini)");
   for my $k (sort keys %entries) {
     print $fh "[", $k, "]\n";
     for my $key (qw/name program arguments showPdf/) {
@@ -247,7 +248,7 @@ sub do_install {
     }
     print $fh "\n";
   }
-  close($fh) or tlwarn("ptex2pdf postinstall: cannot close $tools\n");
+  close($fh) or tlwarn("\nptex2pdf postaction: cannot close $tools\n");
   return 0;
 }
 
