@@ -44,13 +44,13 @@ my %ptex2pdf = (
     'showPdf' => 'true'
   },
   '3' => {
-    'name' => 'pBibTeX (Japanese BibTeX)',
+    'name' => 'pBibTeX',
     'program' => 'pbibtex',
     'arguments' => '-kanji=utf8, $basename',
     'showPdf' => 'false'
   },
   '4' => {
-    'name' => 'mendex (Japanese MakeIndex)',
+    'name' => 'mendex',
     'program' => 'mendex',
     'arguments' => '-U, $basename',
     'showPdf' => 'false'
@@ -68,13 +68,13 @@ my %ptex2pdf = (
     'showPdf' => 'true'
   },
   '7' => {
-    'name' => 'upBibTeX (Unicode pBibTeX)',
+    'name' => 'upBibTeX',
     'program' => 'upbibtex',
     'arguments' => '$basename',
     'showPdf' => 'false'
   },
   '8' => {
-    'name' => 'upmendex (Unicode mendex)',
+    'name' => 'upmendex',
     'program' => 'upmendex',
     'arguments' => '$basename',
     'showPdf' => 'false'
