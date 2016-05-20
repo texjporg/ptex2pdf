@@ -153,7 +153,9 @@ my %original = (
 );
 
 $::lang = "C";
-require TeXLive::TLWinGoo;
+if (TeXLive::TLUtils::win32()) {
+  require TeXLive::TLWinGoo;
+}
 require("TeXLive/trans.pl");
 #use Data::Dumper;
 
