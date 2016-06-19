@@ -251,7 +251,7 @@ sub do_install {
     }
   }
   my $fh;
-  if (!open ($fh, ">", $tools)) {
+  if (!open ($fh, ">>", $tools)) {
     tlwarn("\nptex2pdf postaction: cannot update $tools!\n");
     return 1;
   }
