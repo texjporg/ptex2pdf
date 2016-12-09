@@ -249,6 +249,7 @@ intermediate = 1
 use_eptex = 0
 use_uptex = 0
 use_latex = 0
+outputdir = "."
 filename = ""
 bname = ""
 exit_code = 0
@@ -261,6 +262,9 @@ repeat
   elseif this_arg == "--readme" then
     makereadme()
     os.exit(0)
+  elseif (this_arg == "--output-directory" or this_arg == "-output-directory") then
+    narg = narg+1
+    outputdir = arg[narg]
   elseif this_arg == "--print-version" then
     print(VERSION)
     os.exit(0)
@@ -365,6 +369,11 @@ if use_uptex == 1 then
   if os.type == 'windows' then
     os.setenv('command_line_encoding', 'utf8')
   end
+end
+if (outputdir ~= ".") then
+  texopts = "-output-directory \"" .. outputdir .. "\" " .. texopts
+  bname = outputdir .. "/" .. bname
+  dvipdfopts = "-o \"" .. bname .. ".pdf\""
 end
 print("Processing ".. filename)
 if (os.execute(tex .. " " .. texopts .. " \"" .. filename .. "\"") == 0) and
