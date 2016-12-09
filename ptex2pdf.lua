@@ -354,6 +354,9 @@ else
     -- if it has already an extension, we need to drop it to get the dvi name
     bname = string.gsub(filename, "^(.*)%.[^.]+$", "%1")
   end
+  -- filename may contain "/", but the intermediate output is written
+  -- in current directory, so we need to drop it
+  bname = string.gsub(bname, "^.*/(.*)$", "%1")
 end
 
 -- we are still here, so we found a file
