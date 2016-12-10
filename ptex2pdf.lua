@@ -256,22 +256,25 @@ exit_code = 0
 narg = 1
 repeat
   this_arg = arg[narg]
+  -- replace double dash by single dash at the beginning
+  this_arg = string.gsub(this_arg, "^%-%-", "-")
+
   if this_arg == "-v" then
     whoami()
     os.exit(0)
-  elseif this_arg == "--readme" then
+  elseif this_arg == "-readme" then
     makereadme()
     os.exit(0)
-  elseif (this_arg == "--output-directory" or this_arg == "-output-directory") then
+  elseif this_arg == "-output-directory" then
     narg = narg+1
     outputdir = arg[narg]
-  elseif this_arg == "--print-version" then
+  elseif this_arg == "-print-version" then
     print(VERSION)
     os.exit(0)
   elseif this_arg == "-h" then
     help()
     os.exit(0)
-  elseif this_arg == "--help" then
+  elseif this_arg == "-help" then
     fullhelp()
     os.exit(0)
   elseif this_arg == "-e" then
