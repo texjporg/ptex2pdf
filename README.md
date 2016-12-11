@@ -148,20 +148,20 @@ http://github.com/texjporg/ptex2pdf
 - version 0.8 2015-06-15
   file name checks: first search for arg as is, then try .tex and .ltx
   (closes github issue: 3)
-- version 0.9 2016-12-12
-  allow for files in sub-directories
-  add -output-directory option
-  update copyright and development place (now in texjp)
-  support 'flag=val' to specify option values
-  only allow one (1) filename argument
+- version 0.9 2016-12-12  
+  allow for files in sub-directories  
+  add -output-directory option  
+  update copyright and development place (now in texjp)  
+  support 'flag=val' to specify option values  
+  only allow one (1) filename argument  
 
 ## Copyright and License ##
 
 Originally based on musixtex.lua from Bob Tennent.
 
 (c) Copyright 2012 Bob Tennent rdt@cs.queensu.ca  
-(c) Copyright 2013-2016 Norbert Preining norbert@preining.info
-(c) Copyright 2016      by Japanese TeX Development Community
+(c) Copyright 2013-2016 Norbert Preining norbert@preining.info  
+(c) Copyright 2016      by Japanese TeX Development Community  
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
