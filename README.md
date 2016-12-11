@@ -19,7 +19,7 @@ programs (ptex, uptex, eptex, platex, uplatex) followed by dvipdfmx.
 [texlua] ptex2pdf[.lua] { option | basename[.tex] } ... 
 options: -v  version
          -h  help
-         --help print full help (installation, TeXworks setup)
+         -help print full help (installation, TeXworks setup)
          -e  use eptex class of programs
          -u  use uptex class of programs
          -l  use latex based formats
@@ -27,6 +27,7 @@ options: -v  version
          -i  retain intermediate files
          -ot '<opts>' extra options for TeX
          -od '<opts>' extra options for dvipdfmx
+         -output-directory '<dir>' directory for created files
 `````
 
 ## Installation ##
@@ -147,13 +148,20 @@ http://github.com/texjporg/ptex2pdf
 - version 0.8 2015-06-15
   file name checks: first search for arg as is, then try .tex and .ltx
   (closes github issue: 3)
+- version 0.9 2016-12-12
+  allow for files in sub-directories
+  add -output-directory option
+  update copyright and development place (now in texjp)
+  support 'flag=val' to specify option values
+  only allow one (1) filename argument
 
 ## Copyright and License ##
 
 Originally based on musixtex.lua from Bob Tennent.
 
 (c) Copyright 2012 Bob Tennent rdt@cs.queensu.ca  
-(c) Copyright 2013-2015 Norbert Preining norbert@preining.info  
+(c) Copyright 2013-2016 Norbert Preining norbert@preining.info
+(c) Copyright 2016      by Japanese TeX Development Community
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
