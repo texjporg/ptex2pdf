@@ -268,6 +268,8 @@ repeat
   elseif this_arg == "-output-directory" then
     narg = narg+1
     outputdir = arg[narg]
+  elseif (string.sub(this_arg, 1, 18) == "-output-directory=") then
+    outputdir = string.sub(this_arg, 19, -1)
   elseif this_arg == "-print-version" then
     print(VERSION)
     os.exit(0)
@@ -293,6 +295,8 @@ repeat
   elseif this_arg == "-od" then
     narg = narg+1
     dvipdfopts = arg[narg]
+  elseif (string.sub(this_arg, 1, 4) == "-od=") then
+    dvipdfopts = string.sub(this_arg, 5, -1)
   else
     filename = this_arg 
   end --if this_arg == ...
