@@ -249,25 +249,34 @@ intermediate = 1
 use_eptex = 0
 use_uptex = 0
 use_latex = 0
+outputdir = "."
 filename = ""
 bname = ""
 exit_code = 0
 narg = 1
 repeat
   this_arg = arg[narg]
+  -- replace double dash by single dash at the beginning
+  this_arg = string.gsub(this_arg, "^%-%-", "-")
+
   if this_arg == "-v" then
     whoami()
     os.exit(0)
-  elseif this_arg == "--readme" then
+  elseif this_arg == "-readme" then
     makereadme()
     os.exit(0)
-  elseif this_arg == "--print-version" then
+  elseif this_arg == "-output-directory" then
+    narg = narg+1
+    outputdir = arg[narg]
+  elseif (string.sub(this_arg, 1, 18) == "-output-directory=") then
+    outputdir = string.sub(this_arg, 19, -1)
+  elseif this_arg == "-print-version" then
     print(VERSION)
     os.exit(0)
   elseif this_arg == "-h" then
     help()
     os.exit(0)
-  elseif this_arg == "--help" then
+  elseif this_arg == "-help" then
     fullhelp()
     os.exit(0)
   elseif this_arg == "-e" then
@@ -283,9 +292,13 @@ repeat
   elseif this_arg == "-ot" then
     narg = narg+1
     texopts = arg[narg]
+  elseif (string.sub(this_arg, 1, 4) == "-ot=") then
+    texopts = string.sub(this_arg, 5, -1)
   elseif this_arg == "-od" then
     narg = narg+1
     dvipdfopts = arg[narg]
+  elseif (string.sub(this_arg, 1, 4) == "-od=") then
+    dvipdfopts = string.sub(this_arg, 5, -1)
   else
     filename = this_arg 
   end --if this_arg == ...
@@ -365,6 +378,11 @@ if use_uptex == 1 then
   if os.type == 'windows' then
     os.setenv('command_line_encoding', 'utf8')
   end
+end
+if (outputdir ~= ".") then
+  texopts = "-output-directory \"" .. outputdir .. "\" " .. texopts
+  bname = outputdir .. "/" .. bname
+  dvipdfopts = "-o \"" .. bname .. ".pdf\""
 end
 print("Processing ".. filename)
 if (os.execute(tex .. " " .. texopts .. " \"" .. filename .. "\"") == 0) and
