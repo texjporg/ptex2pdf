@@ -292,6 +292,8 @@ repeat
   elseif this_arg == "-ot" then
     narg = narg+1
     texopts = arg[narg]
+  elseif (string.sub(this_arg, 1, 4) == "-ot=") then
+    texopts = string.sub(this_arg, 5, -1)
   elseif this_arg == "-od" then
     narg = narg+1
     dvipdfopts = arg[narg]
