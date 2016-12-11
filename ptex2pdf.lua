@@ -167,6 +167,7 @@ CHANGELOG = [[
   add -output-directory option
   update copyright and development place (now in texjp)
   support 'flag=val' to specify option values
+  only allow one (1) filename argument
 ]]
 
 
@@ -307,7 +308,12 @@ repeat
   elseif (string.sub(this_arg, 1, 4) == "-od=") then
     dvipdfopts = string.sub(this_arg, 5, -1)
   else
-    filename = this_arg 
+    if filename == "" then
+      filename = this_arg
+    else
+      print("Multiple filename arguments, only one can be processed, exiting.")
+      os.exit(1)
+    end
   end --if this_arg == ...
   narg = narg+1
 until narg > #arg 
