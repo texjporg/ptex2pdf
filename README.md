@@ -159,9 +159,9 @@ http://github.com/texjporg/ptex2pdf
 
 Originally based on musixtex.lua from Bob Tennent.
 
-(c) Copyright 2012 Bob Tennent rdt@cs.queensu.ca  
-(c) Copyright 2013-2016 Norbert Preining norbert@preining.info  
 (c) Copyright 2016      by Japanese TeX Development Community  
+(c) Copyright 2013-2016 Norbert Preining norbert@preining.info  
+(c) Copyright 2012 Bob Tennent rdt@cs.queensu.ca  
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
