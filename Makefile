@@ -20,7 +20,7 @@ release: README.md
 	mkdir ptex2pdf-$(SCRIPTVERSION)
 	cp ptex2pdf.lua COPYING ptex2pdf-$(SCRIPTVERSION)
 	# only ship the mark down version of readme
-	cp README.md ptex2pdf-$(SCRIPTVERSION)/README
+	cp README.md ptex2pdf-$(SCRIPTVERSION)/
 	zip -r ptex2pdf-$(SCRIPTVERSION).zip ptex2pdf-$(SCRIPTVERSION)
 	tar -cJf ptex2pdf-$(SCRIPTVERSION).tar.xz ptex2pdf-$(SCRIPTVERSION)
 	rm -rf ptex2pdf-$(SCRIPTVERSION)
