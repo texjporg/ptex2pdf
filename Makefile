@@ -1,4 +1,5 @@
 
+PROJECT=ptex2pdf
 DESTTREE ?= `kpsewhich -var-value TEXMFLOCAL`
 SCRIPTVERSION = $(shell texlua ptex2pdf.lua --print-version)
 
@@ -16,14 +17,13 @@ install: README.md
 	cp README.md $(DESTTREE)/doc/latex/ptex2pdf/README
 
 release: README.md
-	rm -rf ptex2pdf-$(SCRIPTVERSION)
-	mkdir ptex2pdf-$(SCRIPTVERSION)
-	cp ptex2pdf.lua COPYING ptex2pdf-$(SCRIPTVERSION)
-	# only ship the mark down version of readme
-	cp README.md ptex2pdf-$(SCRIPTVERSION)/
-	zip -r ptex2pdf-$(SCRIPTVERSION).zip ptex2pdf-$(SCRIPTVERSION)
-	tar -cJf ptex2pdf-$(SCRIPTVERSION).tar.xz ptex2pdf-$(SCRIPTVERSION)
-	rm -rf ptex2pdf-$(SCRIPTVERSION)
+	@if [ -r $(PROJECT)-$(SCRIPTVERSION).tar.gz ] ; then \
+	  echo "$(PROJECT)-$(SCRIPTVERSION).tar.gz already there, not overwriting it!" >&2 ; \
+	else \
+	  git archive --format=tar --prefix=$(PROJECT)-$(SCRIPTVERSION)/ HEAD | gzip -c > $(PROJECT)-$(SCRIPTVERSION).tar.gz ; \
+	  echo "$(PROJECT)-$(SCRIPTVERSION).tar.gz is ready" ; \
+	fi
+
 
 clean:
 	-rm -f README
