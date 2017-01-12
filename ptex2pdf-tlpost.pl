@@ -180,11 +180,14 @@ sub do_install {
   # how to find TeX Works
   # on Windows: we assume that the TL internal TeXWorks is used and
   #   search in TW_INIPATH
+  # on macOS: we assume a system-wide TeXworks and use ~/Library/TeXworks
   # all other: we assume a system-wide TeXworks and use ~/.TeXworks
   my $toolsdir;
   if (win32()) {
     chomp( my $twini = `kpsewhich -var-value=TW_INIPATH` ) ;
     $toolsdir = "$twini/configuration";
+  } elsif ($^O eq "darwin") {
+    $toolsdir = $ENV{'HOME'} . "/Library/TeXworks/configuration";
   } else {
     $toolsdir = $ENV{'HOME'} . "/.TeXworks/configuration";
   }
