@@ -298,6 +298,11 @@ sub do_install {
     $found_platex = 1;
   }
   #
+  # TODO: how to set the default on Mac and Linux (where is the config file) ? -- HY
+  if (!win32()) {
+    info("(ptex2pdf postinst: default setting is currently unsupported)");
+    return 0;
+  }
   # check TeXworks.ini
   $noadjust = 0;
   if (-r $tug) {
