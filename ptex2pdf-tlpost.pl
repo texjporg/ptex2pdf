@@ -193,9 +193,9 @@ sub do_install {
   #  /etc/xdg/TUG/TeXworks.conf
   #  /etc/xdg/TeXworks.conf
   # Mac:
-  #  $HOME/Library/Preferences/org.TUG.TeXworks.plist ??
-  #  $HOME/Library/Preferences/com.TeXworks.plist ??
-  #  /Library/Preferences/com.TUG.TeXworks.plist
+  #  $HOME/Library/Preferences/org.tug.TeXworks.plist
+  #  $HOME/Library/Preferences/com.TeXworks.plist
+  #  /Library/Preferences/com.tug.TeXworks.plist
   #  /Library/Preferences/com.TeXworks.plist
   # Win:
   #  HKEY_CURRENT_USER\Software\TUG\TeXworks
@@ -238,10 +238,10 @@ sub do_install {
     $inifile = "TeXworks.ini";
   } elsif ($^O eq "darwin") {
     $toolsdir = $ENV{'HOME'} . "/Library/TeXworks/configuration";
-    $tugdir = $ENV{'HOME'} . "/Library/Preferences"; # needs check TODO
-    $inifile = "org.TUG.TeXworks.plist"; # TODO needs check
-    # TODO but as we do not do anything with $tugdir/$inifile (since it
-    # is a plist file, this is not a problem for now.
+    $tugdir = $ENV{'HOME'} . "/Library/Preferences";
+    $inifile = "org.tug.TeXworks.plist";
+    # Just for completeness, as we are not doing adjustments to
+    # default engines on Mac. For this plist access would ne necessary.
   } else {
     $toolsdir = $ENV{'HOME'} . "/.TeXworks/configuration";
     my $xdgconfhome = (defined($ENV{'XDG_CONFIG_HOME'}) ? $ENV{'XDG_CONFIG_HOME'} : $ENV{'HOME'} . "/.config");
