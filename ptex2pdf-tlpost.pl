@@ -12,7 +12,8 @@
 #     - if *not* available, initialize the default one with "pLaTeX (ptex2pdf)"
 #     - if       available, read and try to set the default if not already there
 #
-# Copyright 2016 Norbert Preining
+# Copyright 2016-2017 Norbert Preining
+# Copyright 2017 Japanese TeX Developer Community
 # This file is licensed under the GNU General Public License version 2
 # or any later version.
 #
@@ -182,27 +183,75 @@ sub do_remove {
 
 sub do_install {
   # how to find TeX Works
-  # on Windows: we assume that the TL internal TeXWorks is used and
-  #   search in TW_INIPATH
-  # on macOS: we assume a system-wide TeXworks and use ~/Library/TeXworks
-  # all other: we assume a system-wide TeXworks and use ~/.TeXworks
+  # see http://doc.qt.io/qt-5/qsettings.html
+  #
+  # NativeFormat
+  # ------------
+  # Unix:
+  #  $HOME/.config/TUG/TeXworks.conf
+  #  $HOME/.config/TeXworks.conf
+  #  /etc/xdg/TUG/TeXworks.conf
+  #  /etc/xdg/TeXworks.conf
+  # Mac:
+  #  $HOME/Library/Preferences/org.TUG.TeXworks.plist ??
+  #  $HOME/Library/Preferences/com.TeXworks.plist ??
+  #  /Library/Preferences/com.TUG.TeXworks.plist
+  #  /Library/Preferences/com.TeXworks.plist
+  # Win:
+  #  HKEY_CURRENT_USER\Software\TUG\TeXworks
+  #  HKEY_CURRENT_USER\Software\TUG\OrganizationDefaults
+  #  HKEY_LOCAL_MACHINE\Software\TUG\TeXworks
+  #  HKEY_LOCAL_MACHINE\Software\TUG\OrganizationDefaults
+  #
+  # IniFormat
+  # ---------
+  # Unix/Mac/iOS:
+  #  $HOME/.config/TUG/TeXworks.ini
+  #  $HOME/.config/TeXworks.ini
+  #  /etc/xdg/TUG/TeXworks.ini
+  #  /etc/xdg/TeXworks.ini
+  # Windows
+  #  FOLDERID_RoamingAppData\TUG\TeXworks.ini
+  #  FOLDERID_RoamingAppData\TUG.ini
+  #  FOLDERID_ProgramData\TUG\TeXworks.ini
+  #  FOLDERID_ProgramData\TUG.ini
+  # where
+  #  FOLDERID_RoamingAppData usually points to C:\Users\User Name\AppData\Roaming
+  #  FOLDERID_ProgramData usually points to C:\ProgramData
+  #
+  # TeXworks uses a mixture of NativeFormat and IniFormat
+  # ConfigurableApp::ConfigurableApp set NativeFormat
+  # TWApp checking for portable mode uses IniFormat
+  #
+  # So my guess is:
+  # - TeXworks as shipped in TL uses the portable app setup, thus IniFormat
+  # - TeXworks on Mac/Unix (not distributed with TL) uses NativeFormat
+  #
   my $toolsdir;
   my $tugdir;
+  my $inifile;
   if (win32()) {
+    # we assume TeXworks from TL, thus IniFormat
     chomp( my $twini = `kpsewhich -var-value=TW_INIPATH` ) ;
     $toolsdir = "$twini/configuration";
     $tugdir = "$twini/TUG";
+    $inifile = "TeXworks.ini";
   } elsif ($^O eq "darwin") {
     $toolsdir = $ENV{'HOME'} . "/Library/TeXworks/configuration";
-    $tugdir = $ENV{'HOME'} . "/Library/TeXworks/TUG"; # This is wrong! -- HY
+    $tugdir = $ENV{'HOME'} . "/Library/Preferences"; # needs check TODO
+    $inifile = "org.TUG.TeXworks.plist"; # TODO needs check
+    # TODO but as we do not do anything with $tugdir/$inifile (since it
+    # is a plist file, this is not a problem for now.
   } else {
     $toolsdir = $ENV{'HOME'} . "/.TeXworks/configuration";
-    $tugdir = $ENV{'HOME'} . "/.TeXworks/TUG"; # This is wrong! -- HY
+    my $xdgconfhome = (defined($ENV{'XDG_CONFIG_HOME'}) ? $ENV{'XDG_CONFIG_HOME'} : $ENV{'HOME'} . "/.config");
+    $tugdir = $xdgconfhome . "/TUG";
+    $inifile = "TeXworks.conf";
   }
   # print "toolsdir = $toolsdir\n";
   # print "tugdir = $tugdir\n";
   my $tools = "$toolsdir/tools.ini";
-  my $tug = "$tugdir/TeXworks.ini";
+  my $tug = "$tugdir/$inifile";
   my $highest_entry = 0;
   my $noadjust;
   my $found_platex;
@@ -298,9 +347,9 @@ sub do_install {
     $found_platex = 1;
   }
   #
-  # TODO: how to set the default on Mac and Linux (where is the config file) ? -- HY
-  if (!win32()) {
-    info("(ptex2pdf postinst: default setting is currently unsupported)");
+  # Setting defaults on Mac needs plist changes, nothing we can easily do, sorry.
+  if ($^O eq "darwin") {
+    info("(ptex2pdf postinst: default setting on Mac is currently unsupported)");
     return 0;
   }
   # check TeXworks.ini
