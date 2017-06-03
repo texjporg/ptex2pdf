@@ -9,7 +9,8 @@ LONGDESC = [[
 Main purpose of the script is easy support of Japanese typesetting
 engines in TeXworks. As TeXworks typesetting setup does not allow
 for multistep processing, this script runs one of the ptex based
-programs (ptex, uptex, eptex, platex, uplatex) followed by dvipdfmx.
+programs (ptex, uptex, eptex, euptex, platex, uplatex) followed
+by dvipdfmx.
 ]]
 USAGE = [[
 [texlua] ptex2pdf[.lua] { option | basename[.tex] } ... 
@@ -73,62 +74,61 @@ Under Preferences > Typesetting add new entries, for example:
 
 for ptex files:
 
-| Setting     |  Value           |
-|-------------|------------------|
-| Name:       |  pTeX to pdf     |
-| Program:    |  ptex2pdf        |
-| Arguments:  |  -ot             |
-|             |  $synctexoption  |
-|             |  $fullname       |
-
+| Setting     | Value              |
+|-------------|--------------------|
+| Name:       | pTeX (ptex2pdf)    |
+| Program:    | ptex2pdf           |
+| Arguments:  | -ot                |
+|             | $synctexoption     |
+|             | $fullname          |
 
 for platex files:
 
-| Setting     | Value          |
-|-------------|----------------|
-| Name:       | pLaTeX to pdf  |
-| Program:    | ptex2pdf       |
-| Arguments:  | -l             |
-|             | -ot            |
-|             | $synctexoption |
-|             | $fullname      |
+| Setting     | Value              |
+|-------------|--------------------|
+| Name:       | pLaTeX (ptex2pdf)  |
+| Program:    | ptex2pdf           |
+| Arguments:  | -l                 |
+|             | -ot                |
+|             | $synctexoption     |
+|             | $fullname          |
 
 for uptex files:
 
-| Setting     | Value          |
-|-------------|----------------|
-| Name:       | upTeX to pdf   |
-| Program:    | ptex2pdf       |
-| Arguments:  | -u             |
-|             | -ot            |
-|             | $synctexoption |
-|             | $fullname      |
+| Setting     | Value              |
+|-------------|--------------------|
+| Name:       | upTeX (ptex2pdf)   |
+| Program:    | ptex2pdf           |
+| Arguments:  | -u                 |
+|             | -ot                |
+|             | $synctexoption     |
+|             | $fullname          |
 
 for uplatex files:
 
-| Setting     | Value          |
-|-------------|----------------|
-| Name:       | upLaTeX to pdf |
-| Program:    | ptex2pdf       |
-| Arguments:  | -l             |
-|             | -u             |
-|             | -ot            |
-|             | $synctexoption |
-|             | $fullname      |
+| Setting     | Value              |
+|-------------|--------------------|
+| Name:       | upLaTeX (ptex2pdf) |
+| Program:    | ptex2pdf           |
+| Arguments:  | -l                 |
+|             | -u                 |
+|             | -ot                |
+|             | $synctexoption     |
+|             | $fullname          |
 
 If you need special kanji encodings for one of these programs,
-add the respective `-kanji` option after the `$synctexoption`. Example:
+add the respective `-kanji` option with the `$synctexoption`. Example:
 
 for platex files in SJIS encoding:
 
-| Setting     | Value                       |
-|-------------|-----------------------------|
-| Name:       | pLaTeX/SJIS to pdf          |
-| Program:    | ptex2pdf                    |
-| Arguments:  | -l                          |
-|             | -ot                         |
-|             | $synctexoption -kanji=sjis  |
-|             | $fullname                   |
+| Setting     | Value                      |
+|-------------|----------------------------|
+| Name:       | pLaTeX/SJIS (ptex2pdf)     |
+| Program:    | ptex2pdf                   |
+| Arguments:  | -l                         |
+|             | -ot                        |
+|             | -kanji=sjis $synctexoption |
+|             | $fullname                  |
 ]]
 
 DEVELPLACE = "http://github.com/texjporg/ptex2pdf"
