@@ -1,0 +1,13 @@
+# Core latex/pdflatex auxiliary files
+*.aux
+*.log
+
+# No documents
+*.pdf
+*.ps
+*.dvi
+
+# WinEdt, Emacs
+*~
+*.bak
+*.sav

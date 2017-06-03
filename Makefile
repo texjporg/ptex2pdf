@@ -3,6 +3,10 @@ PROJECT=ptex2pdf
 DESTTREE ?= `kpsewhich -var-value TEXMFLOCAL`
 SCRIPTVERSION = $(shell texlua ptex2pdf.lua --print-version)
 
+.PHONY: default install release
+default: README.md
+
+
 README: README.md
 	pandoc --from=markdown_github --to=plain --columns=80 README.md > README
 
@@ -17,12 +21,7 @@ install: README.md
 	cp README.md $(DESTTREE)/doc/latex/ptex2pdf/README
 
 release: README.md
-	@if [ -r $(PROJECT)-$(SCRIPTVERSION).tar.gz ] ; then \
-	  echo "$(PROJECT)-$(SCRIPTVERSION).tar.gz already there, not overwriting it!" >&2 ; \
-	else \
-	  git archive --format=tar --prefix=$(PROJECT)-$(SCRIPTVERSION)/ HEAD | gzip -c > $(PROJECT)-$(SCRIPTVERSION).tar.gz ; \
-	  echo "$(PROJECT)-$(SCRIPTVERSION).tar.gz is ready" ; \
-	fi
+	sh release.sh
 
 
 clean:

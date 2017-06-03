@@ -154,7 +154,8 @@ http://github.com/texjporg/ptex2pdf
   update copyright and development place (now in texjp)  
   support 'flag=val' to specify option values  
   only allow one (1) filename argument  
-- version 0.9.1 2017-06-03  
+- version 20170603.0  
+  start version number in the format YYYYMMDD.0  
   better support for cp932 windows filenames  
   first replace all backslash chars to slash chars  
 
