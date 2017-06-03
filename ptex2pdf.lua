@@ -1,7 +1,7 @@
 #!/usr/bin/env texlua
 
 NAME = "ptex2pdf[.lua]"
-VERSION = "0.9"
+VERSION = "0.9.1"
 AUTHOR = "Norbert Preining"
 AUTHOREMAIL = "norbert@preining.info"
 SHORTDESC = "Convert Japanese TeX documents to pdf"
@@ -28,9 +28,9 @@ options: -v  version
 LICENSECOPYRIGHT = [[
 Originally based on musixtex.lua from Bob Tennent.
 
-(c) Copyright 2016      by Japanese TeX Development Community  
-(c) Copyright 2013-2016 Norbert Preining norbert@preining.info  
-(c) Copyright 2012 Bob Tennent rdt@cs.queensu.ca  
+(c) Copyright 2016-2017 Japanese TeX Development Community  
+(c) Copyright 2013-2017 Norbert Preining norbert@preining.info  
+(c) Copyright 2012      Bob Tennent rdt@cs.queensu.ca  
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
@@ -242,6 +242,38 @@ function whoami ()
   print("This is " .. NAME .. " version ".. VERSION .. ".")
 end
 
+function print_ifdebug(message) -- for debugging: accepts only one argument
+  --print("DEBUG: " .. message) -- uncomment for debugging
+end
+
+function isdir(name) -- checks if it is a dir
+  if type(name) ~= "string" then
+    print_ifdebug("dir check: Not a string")
+    return 0
+  end
+  if name == "" then
+    print_ifdebug("dir check: String is empty")
+    return 0
+  end
+  response = os.execute( 'cd ' .. name .. ' 2>' .. nulldevice)
+  if response == nil then
+    print_ifdebug("dir check: cd did not work")
+    return 0
+  elseif response == 0 then
+    print_ifdebug("dir check: cd worked, exit status " .. response)
+    return 1
+  else
+    print_ifdebug("dir check: cd did not work, exit status ".. response)
+    return 0
+  end
+end
+
+if os.type == 'windows' then
+  nulldevice = "nul"
+else
+  nulldevice = "/dev/null"
+end
+
 if #arg == 0 then
   usage()
   os.exit(0)
@@ -382,7 +414,20 @@ else
   end
   -- filename may contain "/" or "\", but the intermediate output is written
   -- in current directory, so we need to drop it
-  bname = string.gsub(bname, "^.*[/\\](.*)$", "%1")
+  -- first, save string which is supposed to be the file name
+  foo = string.gsub(bname, "^.*[/\\](.*)$", "%1")
+  foox = string.gsub(foo, "-", "%%-") -- in case foo contains hyphen
+  -- then, ensure that the dropped string is actually the directory name
+  bar = string.gsub(bname, foox, "")
+  print_ifdebug("str0: \"" .. bname .. "\"")
+  print_ifdebug("str1: \"" .. foo   .. "\"")
+  print_ifdebug("str2: \"" .. bar   .. "\"")
+  if isdir(bar) == 1 then
+    print_ifdebug("\"" .. bar .. "\" is a directory")
+    bname = foo
+  else
+    print_ifdebug("\"" .. bar .. "\" is not a directory")
+  end
 end
 
 -- we are still here, so we found a file
@@ -410,10 +455,8 @@ if (os.execute(tex .. " " .. texopts .. " \"" .. filename .. "\"") == 0) and
   end
 else
   print("ptex2pdf processing of " .. filename .. " failed.\n")
-    --[[ uncomment for debugging
-    print("tex = ", tex)
-    print("dvipdf = ", dvipdf)
-    --]]
+  print_ifdebug("tex = " .. tex)
+  print_ifdebug("dvipdf = " .. dvipdf)
   os.exit(2)
 end
 
