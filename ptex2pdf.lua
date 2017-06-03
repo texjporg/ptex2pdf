@@ -168,6 +168,9 @@ CHANGELOG = [[
   update copyright and development place (now in texjp)  
   support 'flag=val' to specify option values  
   only allow one (1) filename argument  
+- version 0.9.1 2017-06-03  
+  better support for cp932 windows filenames  
+  first replace all backslash chars to slash chars  
 ]]
 
 
