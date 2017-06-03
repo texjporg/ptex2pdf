@@ -246,32 +246,8 @@ function print_ifdebug(message) -- for debugging: accepts only one argument
   --print("DEBUG: " .. message) -- uncomment for debugging
 end
 
-function isdir(name) -- checks if it is a dir
-  if type(name) ~= "string" then
-    print_ifdebug("dir check: Not a string")
-    return 0
-  end
-  if name == "" then
-    print_ifdebug("dir check: String is empty")
-    return 0
-  end
-  response = os.execute( 'cd ' .. name .. ' 2>' .. nulldevice)
-  if response == nil then
-    print_ifdebug("dir check: cd did not work")
-    return 0
-  elseif response == 0 then
-    print_ifdebug("dir check: cd worked, exit status " .. response)
-    return 1
-  else
-    print_ifdebug("dir check: cd did not work, exit status ".. response)
-    return 0
-  end
-end
-
-if os.type == 'windows' then
-  nulldevice = "nul"
-else
-  nulldevice = "/dev/null"
+function slashify(str) -- replace "\" with "/", mainly for path strings on cp932 windows
+  return (tostring(str):gsub("[\x81-\x9f\xe0-\xfc]?.", { ["\\"] = "/" }))
 end
 
 if #arg == 0 then
@@ -392,7 +368,8 @@ kpse.set_program_name(tex)
 if ( filename == "" ) then
   print("No filename argument given, exiting.")
   os.exit(1)
-else 
+else
+  filename = slashify(filename)
   if ( kpse.find_file(filename) == nil ) then
     -- try .tex extension
     if ( kpse.find_file(filename .. ".tex") == nil ) then
@@ -412,37 +389,10 @@ else
     -- if it has already an extension, we need to drop it to get the dvi name
     bname = string.gsub(filename, "^(.*)%.[^.]+$", "%1")
   end
-  -- filename may contain "/" or "\", but the intermediate output is written
+  -- filename may contain "/", but the intermediate output is written
   -- in current directory, so we need to drop it
-  -- to avoid the problem in github:issue#10
-  --   1.  save pattern which is supposed to be the file name;
-  --       the rest of string is dropped
-  foo = string.gsub(bname, "^.*[/\\](.*)$", "%1")
-  --   2.  ensure that the dropped string is actually the directory name;
-  --       note that pattern should escape hyphen, and it should be found
-  --       at the end of bname
-  -- this can support any of the following inputs:
-  --   * "test.tex"
-  --   * "test-test.tex" (contains hyphen)
-  --   * "yo tei.tex" (in Shift_JIS, "yo" = 0x975C and "tei" = 0x92E8)
-  --   * "subdir/test.tex" or "subdir\test.tex"
-  --   * "subdir/test-test.tex" or "subdir\test-test.tex"
-  -- where "subdir" allows "." or ".." or arbitrary strings
-  -- this routine still fails on windows, when the input file is
-  --   * "subdir/yo tei.tex" or "subdir\yo tei.tex"
-  -- because the above string.gsub matches 0x5C in "yo" and drops it,
-  -- but there seems no way of supporting such case (2017/06/03 HY)
-  foox = string.gsub(foo, "-", "%%-") .. "$"
-  bar = string.gsub(bname, foox, "")
-  print_ifdebug("str0: \"" .. bname .. "\"")
-  print_ifdebug("str1: \"" .. foo   .. "\"")
-  print_ifdebug("str2: \"" .. bar   .. "\"")
-  if isdir(bar) == 1 then
-    print_ifdebug("\"" .. bar .. "\" is a directory")
-    bname = foo
-  else
-    print_ifdebug("\"" .. bar .. "\" is not a directory")
-  end
+  -- note that all "\" has been replaced with "/"
+  bname = string.gsub(bname, "^.*/(.*)$", "%1")
 end
 
 -- we are still here, so we found a file
