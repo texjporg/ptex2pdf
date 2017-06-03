@@ -414,10 +414,25 @@ else
   end
   -- filename may contain "/" or "\", but the intermediate output is written
   -- in current directory, so we need to drop it
-  -- first, save string which is supposed to be the file name
+  -- to avoid the problem in github:issue#10
+  --   1.  save pattern which is supposed to be the file name;
+  --       the rest of string is dropped
   foo = string.gsub(bname, "^.*[/\\](.*)$", "%1")
-  foox = string.gsub(foo, "-", "%%-") -- in case foo contains hyphen
-  -- then, ensure that the dropped string is actually the directory name
+  --   2.  ensure that the dropped string is actually the directory name;
+  --       note that pattern should escape hyphen, and it should be found
+  --       at the end of bname
+  -- this can support any of the following inputs:
+  --   * "test.tex"
+  --   * "test-test.tex" (contains hyphen)
+  --   * "yo tei.tex" (in Shift_JIS, "yo" = 0x975C and "tei" = 0x92E8)
+  --   * "subdir/test.tex" or "subdir\test.tex"
+  --   * "subdir/test-test.tex" or "subdir\test-test.tex"
+  -- where "subdir" allows "." or ".." or arbitrary strings
+  -- this routine still fails on windows, when the input file is
+  --   * "subdir/yo tei.tex" or "subdir\yo tei.tex"
+  -- because the above string.gsub matches 0x5C in "yo" and drops it,
+  -- but there seems no way of supporting such case (2017/06/03 HY)
+  foox = string.gsub(foo, "-", "%%-") .. "$"
   bar = string.gsub(bname, foox, "")
   print_ifdebug("str0: \"" .. bname .. "\"")
   print_ifdebug("str1: \"" .. foo   .. "\"")
