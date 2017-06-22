@@ -172,6 +172,8 @@ CHANGELOG = [[
   start version number in the format YYYYMMDD.0  
   better support for cp932 windows filenames  
   first replace all backslash chars to slash chars  
+- version 20170622.0  
+  pass all non-optional arguments before filename to TeX engine  
 ]]
 
 
