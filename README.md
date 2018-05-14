@@ -160,14 +160,17 @@ http://github.com/texjporg/ptex2pdf
   first replace all backslash chars to slash chars  
 - version 20170622.0  
   pass all non-optional arguments before filename to TeX engine  
+- version 20180514.0
+  Windows: for uptex use command_line_encoding=utf8, for all other turn
+  it off (set to none)
 
 ## Copyright and License ##
 
 Originally based on musixtex.lua from Bob Tennent.
 
-(c) Copyright 2016-2017 Japanese TeX Development Community  
-(c) Copyright 2013-2017 Norbert Preining norbert@preining.info  
-(c) Copyright 2012      Bob Tennent rdt@cs.queensu.ca  
+(c) Copyright 2016-2018 Japanese TeX Development Community
+(c) Copyright 2013-2018 Norbert Preining norbert@preining.info
+(c) Copyright 2012      Bob Tennent rdt@cs.queensu.ca
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
