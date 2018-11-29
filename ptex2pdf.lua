@@ -177,6 +177,8 @@ CHANGELOG = [[
 - version 20180514.0
   Windows: for uptex use command_line_encoding=utf8, for all other turn
   it off (set to none)
+- version YYYYMMDD.0
+  support directories containing dots (thanks Ito Turukasiwa)
 ]]
 
 
