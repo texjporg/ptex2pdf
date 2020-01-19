@@ -160,12 +160,12 @@ http://github.com/texjporg/ptex2pdf
   first replace all backslash chars to slash chars  
 - version 20170622.0  
   pass all non-optional arguments before filename to TeX engine  
-- version 20180514.0
+- version 20180514.0  
   Windows: for uptex use command_line_encoding=utf8, for all other turn
   it off (set to none)
-- version 20181212.0
+- version 20181212.0  
   support directories containing dots (thanks kn1cht)
-- version 20200119.0
+- version 20200119.0  
   check invalid PATH string beforehand on windows
 
 ## Copyright and License ##
