@@ -25,5 +25,5 @@ release: README.md
 
 
 clean:
-	-rm -f README
+	-rm -f README.md README
 
