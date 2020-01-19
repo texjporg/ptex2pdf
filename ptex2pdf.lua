@@ -135,45 +135,45 @@ DEVELPLACE = "http://github.com/texjporg/ptex2pdf"
 
 
 CHANGELOG = [[
-- version 0.1  2013-03-08 NP
+- version 0.1  2013-03-08 NP  
   Initial release on blog
-- version 0.2  2013-03-10 NP
-  import into git repository
-  support passing options on to tex and dvipdfm
-  add README with TeXworks config options
-- version 0.3  2013-05-01 NP
-  include the readme in the lua code
-  fix program name for -e -u
-- version 0.4  2013-05-07 NP
-  quote the filename with ", so that special chars do survive
-  add an example for TeXworks for files with different kanji encoding
-- version 0.5  2014-11-05 NP
-  on Windows: set command_line_encoding to utf8 when running uptex
-  (patch by Akira Kakuto)
-- version 0.6  2015-03-08 NP
-  cygwin didn't like the (accidentally inserted) spaces after the
-  texlua in the shebang line, and stopped working with
-    "no such program: "texlua  " ..."
-- version 0.7 2015-04-29
-  move to github as gitorious will be closed, adapt help output
-  to generate github flavored markdown
-  check for files using kpathsea instead of opening directly, to allow
-  for input of files found by kpathsea (closes github issue 1)
-- version 0.8 2015-06-15
-  file name checks: first search for arg as is, then try .tex and .ltx
-  (closes github issue: 3)
-- version 0.9 2016-12-12
-  allow for files in sub-directories
-  add -output-directory option
-  update copyright and development place (now in texjp)
-  support 'flag=val' to specify option values
-  only allow one (1) filename argument
-- version 20170603.0
-  start version number in the format YYYYMMDD.0
-  better support for cp932 windows filenames
-  first replace all backslash chars to slash chars
-- version 20170622.0
-  pass all non-optional arguments before filename to TeX engine
+- version 0.2  2013-03-10 NP  
+  import into git repository  
+  support passing options on to tex and dvipdfm  
+  add README with TeXworks config options  
+- version 0.3  2013-05-01 NP  
+  include the readme in the lua code  
+  fix program name for -e -u  
+- version 0.4  2013-05-07 NP  
+  quote the filename with ", so that special chars do survive  
+  add an example for TeXworks for files with different kanji encoding  
+- version 0.5  2014-11-05 NP  
+  on Windows: set command_line_encoding to utf8 when running uptex  
+  (patch by Akira Kakuto)  
+- version 0.6  2015-03-08 NP  
+  cygwin didn't like the (accidentally inserted) spaces after the  
+  texlua in the shebang line, and stopped working with  
+    "no such program: "texlua  " ..."  
+- version 0.7 2015-04-29  
+  move to github as gitorious will be closed, adapt help output  
+  to generate github flavored markdown  
+  check for files using kpathsea instead of opening directly, to allow  
+  for input of files found by kpathsea (closes github issue 1)  
+- version 0.8 2015-06-15  
+  file name checks: first search for arg as is, then try .tex and .ltx  
+  (closes github issue: 3)  
+- version 0.9 2016-12-12  
+  allow for files in sub-directories  
+  add -output-directory option  
+  update copyright and development place (now in texjp)  
+  support 'flag=val' to specify option values  
+  only allow one (1) filename argument  
+- version 20170603.0  
+  start version number in the format YYYYMMDD.0  
+  better support for cp932 windows filenames  
+  first replace all backslash chars to slash chars  
+- version 20170622.0  
+  pass all non-optional arguments before filename to TeX engine  
 - version 20180514.0
   Windows: for uptex use command_line_encoding=utf8, for all other turn
   it off (set to none)
