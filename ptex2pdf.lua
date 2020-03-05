@@ -14,17 +14,18 @@ by dvipdfmx.
 ]]
 USAGE = [[
 [texlua] ptex2pdf[.lua] { option | basename[.tex] } ...
-options: -v  version
-         -h  help
-         -help print full help (installation, TeXworks setup)
-         -e  use eptex class of programs
-         -u  use uptex class of programs
-         -l  use latex based formats
-         -s  stop at dvi
-         -i  retain intermediate files
-         -ot '<opts>' extra options for TeX
-         -od '<opts>' extra options for dvipdfmx
-         -output-directory '<dir>' directory for created files]]
+options: -v     version
+         -h     help
+         -help  print full help (installation, TeXworks setup)
+         -e     use eptex class of programs
+         -u     use uptex class of programs
+         -l     use latex based formats
+         -ld    use latex-dev based formats
+         -s     stop at dvi
+         -i     retain intermediate files
+         -ot '<opts>'   extra options for TeX
+         -od '<opts>'   extra options for dvipdfmx
+         -output-directory '<dir>'   directory for created files]]
 
 LICENSECOPYRIGHT = [[
 Originally based on musixtex.lua from Bob Tennent.
@@ -278,6 +279,7 @@ intermediate = 1
 use_eptex = 0
 use_uptex = 0
 use_latex = 0
+use_latexdev = 0
 outputdir = "."
 prefilename = ""
 filename = ""
@@ -315,6 +317,9 @@ repeat
     use_uptex = 1
   elseif this_arg == "-l" then
     use_latex = 1
+  elseif this_arg == "-ld" then
+    use_latex = 1
+    use_latexdev = 1
   elseif this_arg == "-s" then
     dvipdf = ""
   elseif this_arg == "-i" then
@@ -344,30 +349,30 @@ until narg > #arg
 
 whoami()
 
-if use_eptex == 1 then
+if use_latex == 1 then
   if use_uptex == 1 then
-    if use_latex == 1 then
-      tex = "uplatex"	-- uplatex already as etex extension
+    if use_latexdev == 1 then
+      tex = "uplatex-dev"
     else
-      tex = "euptex"
+      tex = "uplatex"	-- uplatex already as etex extension
     end
   else
-    if use_latex == 1 then
-      tex = "platex"    -- latex needs etex anyway
+    if use_latexdev == 1 then
+      tex = "platex-dev"
     else
-      tex = "eptex"
+      tex = "platex"    -- latex needs etex anyway
     end
   end
 else
-  if use_uptex == 1 then
-    if use_latex == 1 then
-      tex = "uplatex"
+  if use_eptex == 1 then
+    if use_uptex == 1 then
+      tex = "euptex"
     else
-      tex = "uptex"
+      tex = "eptex"
     end
   else
-    if use_latex == 1 then
-      tex = "platex"
+    if use_uptex == 1 then
+      tex = "uptex"
     else
       tex = "ptex"
     end
