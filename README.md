@@ -168,14 +168,16 @@ http://github.com/texjporg/ptex2pdf
   support directories containing dots (thanks kn1cht)
 - version 20200119.0  
   check invalid PATH string beforehand on windows
+- version 20200307.0  
+  add -ld option to run (u)platex-dev
 
 ## Copyright and License ##
 
 Originally based on musixtex.lua from Bob Tennent.
 
-(c) Copyright 2016-2020 Japanese TeX Development Community
-(c) Copyright 2013-2020 Norbert Preining norbert@preining.info
-(c) Copyright 2012      Bob Tennent rdt@cs.queensu.ca
+(c) Copyright 2016-2020 Japanese TeX Development Community  
+(c) Copyright 2013-2020 Norbert Preining norbert@preining.info  
+(c) Copyright 2012      Bob Tennent rdt@cs.queensu.ca  
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
