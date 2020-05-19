@@ -170,6 +170,8 @@ http://github.com/texjporg/ptex2pdf
   check invalid PATH string beforehand on windows
 - version 20200307.0  
   add -ld option to run (u)platex-dev
+- version YYYYMMDD.0
+  change cmd line encoding for texlua on Windows
 
 ## Copyright and License ##
 
