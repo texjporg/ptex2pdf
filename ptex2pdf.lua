@@ -381,6 +381,18 @@ else
   end
 end
 
+function is_texlivew32()
+  if status.luatex_version < 112 then
+    return false
+  end
+  if os.type == 'windows'
+     and kpse.var_value('command_line_encoding') ~= nil then
+    return true
+  else
+    return false
+  end
+end
+
 -- initialize kpse
 kpse.set_program_name(tex)
 
@@ -392,6 +404,9 @@ if ( filename == "" ) then
   print("No filename argument given, exiting.")
   os.exit(1)
 else
+  if is_texlivew32() then
+    filename = chgstrcp.syscptoutf8(filename)
+  end
   filename = slashify(filename)
   if ( kpse.find_file(filename) == nil ) then
     -- try .tex extension
@@ -401,15 +416,24 @@ else
         print("File cannot be found with kpathsea: ", filename .. "[.tex, .ltx]")
         os.exit(1)
       else
+        if is_texlivew32() then
+          filename = chgstrcp.utf8tosyscp(filename)
+        end
         bname = filename
         filename = filename .. ".ltx"
       end
     else
+      if is_texlivew32() then
+        filename = chgstrcp.utf8tosyscp(filename)
+      end
       bname = filename
       filename = filename .. ".tex"
     end
   else
     -- if it has already an extension, we need to drop it to get the dvi name
+    if is_texlivew32() then
+      filename = chgstrcp.utf8tosyscp(filename)
+    end
     bname = string.gsub(filename, "^(.*)%.[^./]+$", "%1")
   end
   -- filename may contain "/", but the intermediate output is written
