@@ -184,6 +184,8 @@ CHANGELOG = [[
   check invalid PATH string beforehand on windows
 - version 20200307.0  
   add -ld option to run (u)platex-dev
+- version 20200520.0  
+  Windows: lua mode - support non-ascii file name on recent luatex
 ]]
 
 
@@ -195,7 +197,7 @@ function makereadme()
   print("# " .. NAME .. " #")
   print()
   print("**Author:** " .. AUTHOR .. "  ")
-  print("**Website:** http://www.preining.info/blog/software-projects/ptex2pdf/ (in Japanese)  ")
+  print("**Website:** http://github.com/texjporg/ptex2pdf  ")
   print("**License:** GPLv2")
   print()
   print(SHORTDESC)
