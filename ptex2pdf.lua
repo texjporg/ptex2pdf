@@ -436,7 +436,7 @@ else
     if is_texlivew32() then
       filename = chgstrcp.utf8tosyscp(filename)
     end
-    bname = string.gsub(filename, "^(.*)%.[^./]+$", "%1")
+    bname = string.gsub(filename, "(.*)%.tex$", "%1")
   end
   -- filename may contain "/", but the intermediate output is written
   -- in current directory, so we need to drop it
