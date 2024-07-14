@@ -30,8 +30,8 @@ options: -v     version
 LICENSECOPYRIGHT = [[
 Originally based on musixtex.lua from Bob Tennent.
 
-(c) Copyright 2016-2020 Japanese TeX Development Community  
-(c) Copyright 2013-2020 Norbert Preining norbert@preining.info  
+(c) Copyright 2016-2024 Japanese TeX Development Community  
+(c) Copyright 2013-2024 Norbert Preining norbert@preining.info  
 (c) Copyright 2012      Bob Tennent rdt@cs.queensu.ca  
 
 This program is free software; you can redistribute it and/or modify it
@@ -186,6 +186,8 @@ CHANGELOG = [[
   add -ld option to run (u)platex-dev
 - version 20200520.0  
   Windows: lua mode - support non-ascii file name on recent luatex
+- version XXXXXXXXX
+  make sure we work with calls `ptex2pdf foo/bar.baz.tex`
 ]]
 
 
@@ -436,7 +438,19 @@ else
     if is_texlivew32() then
       filename = chgstrcp.utf8tosyscp(filename)
     end
-    bname = string.gsub(filename, "^(.*)%.[^./]+$", "%1")
+    -- don't use filename as if for stripping extension, since
+    -- we might have a filename without extension and additional
+    -- dots embedded, like
+    --   subdir/foo.bar.tex
+    -- and ptex2pdf was called with
+    --   subdir/foo.bar
+    -- as argument.
+    -- Then, kpse.find_file finds the file (even when passed int
+    -- the basename without extension).
+    -- Make the replacement with the full filename as found by find_file.
+    -- See Github Issue #16
+    kpsename = kpse.find_file(filename)
+    bname = string.gsub(kpsename, "^(.*)%.[^./]+$", "%1")
   end
   -- filename may contain "/", but the intermediate output is written
   -- in current directory, so we need to drop it
