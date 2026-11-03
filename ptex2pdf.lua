@@ -417,6 +417,9 @@ else
     if ( kpse.find_file(filename .. ".tex") == nil ) then
       -- last try .ltx
       if ( kpse.find_file(filename .. ".ltx") == nil ) then
+        if is_texlivew32() then
+          filename = chgstrcp.utf8tosyscp(filename)
+        end
         print("File cannot be found with kpathsea: ", filename .. "[.tex, .ltx]")
         os.exit(1)
       else
